@@ -23,21 +23,27 @@
 .boxes {
   position: relative;
   display: flex;
-  max-width: 100%;
-  gap: 10px;
-}
-
-/* Eight boxes, in two groups of four: narrower, with a wider gap in the middle to read the code out. */
-.grouped {
+  align-items: center;
+  justify-content: space-between;
   gap: 8px;
+  /* The boxes and the dash fill the field: boxes of 44 px at most, any width left goes around the dash. */
+  width: 100%;
+  max-width: 426px;
 }
 
-.grouped .box {
-  width: 44px;
+.group {
+  display: flex;
+  flex: 0 1 auto;
+  gap: 8px;
+  min-width: 0;
 }
 
-.grouped .box:nth-of-type(4) {
-  margin-right: 10px;
+.dash {
+  flex: none;
+  width: 10px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--text-3);
 }
 
 /* The real field, over the boxes: invisible, but it takes the taps, the keys and the paste. */
@@ -61,15 +67,16 @@
   position: relative;
   display: flex;
   align-items: center;
-  flex: 0 1 auto;
   justify-content: center;
-  /* Six boxes still fit a phone's width: they narrow rather than overflow. */
-  width: 52px;
+  /* Narrower in a narrower field, always in the 44 × 60 shape with its corners in proportion (14 px at 44 × 60). */
+  width: 44px;
   min-width: 0;
-  height: 60px;
+  flex: 0 1 auto;
+  aspect-ratio: 44 / 60;
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 31.8% / 23.3%;
   background: var(--control);
+  container-type: inline-size;
   transition:
     border-color 160ms,
     background-color 160ms;
@@ -77,8 +84,8 @@
 
 /* A typed digit: a dot, never the digit (unless the field shows its digits, below). */
 .filled::after {
-  width: 12px;
-  height: 12px;
+  width: 28%;
+  aspect-ratio: 1;
   border-radius: 50%;
   background: var(--text);
   content: '';
@@ -92,7 +99,8 @@
 .shown .box {
   color: var(--text);
   font-family: var(--font-mono);
-  font-size: 22px;
+  /* The text follows the box, between a size still easy to read and the one of a 44 px box. */
+  font-size: clamp(14px, 50cqw, 22px);
 }
 
 .wrong.shown .box {
@@ -100,14 +108,14 @@
 }
 
 /* Where the next digit goes, while the field has the focus. */
-.input:focus ~ .next {
+.input:focus ~ .group .next {
   border-color: var(--rust-border);
 }
 
 /* A caret in that box, blinking as in any text field, until the code is full. */
-.input:focus ~ .next:not(.filled)::before {
+.input:focus ~ .group .next:not(.filled)::before {
   width: 2px;
-  height: 24px;
+  height: 40%;
   border-radius: 1px;
   background: var(--text);
   animation: caret 1s steps(1) infinite;
@@ -115,7 +123,7 @@
 }
 
 .wrong .box,
-.wrong .input:focus ~ .next {
+.wrong .input:focus ~ .group .next {
   border-color: var(--destructive-border);
   background: var(--destructive);
 }
@@ -129,7 +137,7 @@
 }
 
 .right .box,
-.right .input:focus ~ .next {
+.right .input:focus ~ .group .next {
   border-color: var(--topic-science);
   background: var(--topic-science-surface);
 }
@@ -147,7 +155,7 @@
     transition: none;
   }
 
-  .input:focus ~ .next:not(.filled)::before {
+  .input:focus ~ .group .next:not(.filled)::before {
     animation: none;
   }
 }
