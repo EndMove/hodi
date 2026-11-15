@@ -8,9 +8,15 @@ release moves them under its number and date. The plugin SDK has its own: [plugi
 
 ## [Unreleased]
 
+### Changed
+
+- **E-mail.** When a test or a message cannot be sent, the server's log gives the mail server's exact error.
+
 ### Fixed
 
 - **Shown password.** It reads at the size of the other fields' text, no longer larger and spaced out.
+- **E-mail test.** A server's admin with no profile in a household can send « Envoyer un essai » to their own address; it
+  failed as « le serveur ne répond pas ».
 
 ## [1.0.0-beta.4] - 2026-11-15
 
