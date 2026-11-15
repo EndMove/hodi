@@ -8,6 +8,10 @@ release moves them under its number and date. The plugin SDK has its own: [plugi
 
 ## [Unreleased]
 
+### Added
+
+- **Plugins.** A plugin can read the public site's address from the server's general settings.
+
 ### Fixed
 
 - **Empty settings page.** A page of the server's space or of a plugin with nothing to list no longer scrolls: its
