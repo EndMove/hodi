@@ -12,6 +12,11 @@ release moves them under its number and date. The plugin SDK has its own: [plugi
 
 - **Plugins.** A plugin can read the public site's address from the server's general settings.
 
+### Changed
+
+- **Code fields.** The two-step sign-in and "I have a code" no longer repeat "Code" above the boxes: the screen's
+  title already says it.
+
 ### Fixed
 
 - **Empty settings page.** A page of the server's space or of a plugin with nothing to list no longer scrolls: its
