@@ -22,6 +22,11 @@ release moves them under its number and date. The plugin SDK has its own: [plugi
   with a plain-text copy for the ones that show no HTML. The password reset has a button. Under the card, every e-mail
   says « Envoyé par Hodi » and gives the public site's address (Serveur › Général), else Hodi's: never a plugin's name.
 
+### Fixed
+
+- **Installed app.** Hodi added to a home screen or as a desktop app always opens on Connexion, never on the public
+  site set in Server › General.
+
 ## [1.0.0-beta.6] - 2026-11-15
 
 Plugins can read the public site's address, code fields lose their repeated label, and empty settings pages stop
