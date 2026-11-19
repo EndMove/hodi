@@ -8,6 +8,15 @@ release moves them under its number and date. The plugin SDK has its own: [plugi
 
 ## [Unreleased]
 
+### Added
+
+- **Leave a household.** Settings > My account shows your household and your role, with Leave: your profile and what
+  you read there go, your account stays and can join another household with a code. The last adult with an account
+  cannot leave.
+- **An account with no household.** After leaving, or once its profile is deleted, an account signs in to a card that
+  says so, with My account on a page of its own (e-mail, password, devices, a copy, deleting it) and Sign out.
+  `#/account` opens My account in every case.
+
 ### Changed
 
 - **Names stand out.** In dialogs and at the top of the Settings, Server and My account pages, the names of households and
@@ -29,9 +38,6 @@ release moves them under its number and date. The plugin SDK has its own: [plugi
   Réglages › Foyer, asks for six digits for every adult profile that is not private; the admin sets, changes or turns
   it off with their own password (and the app's code). Accounts from before keep asking
   for their password: their profile is private until they turn it off.
-- **One household per account.** An account belongs to one household only. Joining another household with an
-  existing account says which household it is in, and asks to leave it first. On a server with Village, Which household? and
-  Switch household are gone.
 
 - **My account.** Settings > Account and data becomes My account, and starts with your profile (name, photo, colour)
   and your language, which leaves Reading and display. My profile becomes General: the guided tour and the reset.

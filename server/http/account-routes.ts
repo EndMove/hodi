@@ -13,6 +13,7 @@ import { isPassword } from './household-input.ts'
 import { profileIdOf } from './profile-routes.ts'
 import type { TwoFactorStore } from '../db/two-factor-store.ts'
 import { RECENT_SIGN_IN_MS, proofCheck } from './proof.ts'
+import { mountLeaveRoute } from './account-leave-route.ts'
 import { mountLockRoutes } from './account-lock-routes.ts'
 
 // The person's own account, after the session and profile checks: Réglages > Compte et données.
@@ -64,6 +65,7 @@ export const accountRoutes = (options: AccountRoutesOptions) => {
   mountCredentialRoutes(router, options, helpers)
   mountCopyRoute(router, options, helpers)
   mountDeleteRoute(router, options, helpers)
+  mountLeaveRoute(router, options, helpers)
   return router
 }
 
@@ -120,7 +122,13 @@ const accountHelpers = ({
       deletion: going && {
         householdGoes: going.householdGoes,
         household: going.household,
-        others: going.profiles.slice(1).map(profile => profile.name)
+        others: going.profiles.slice(1).map(profile => profile.name),
+        // Who becomes the household's admin when the person leaves or goes.
+        heir: going.heir?.name ?? null,
+        // The person reads in this household: an account with no profile here has nothing to leave.
+        member: going.profiles.length > 0,
+        // The person runs this household: leaving hands that over to the heir.
+        admin: going.profiles[0] !== undefined && profiles?.get(going.profiles[0].id)?.role === 'admin'
       },
       // « Validation en deux étapes »: the server's admin must keep it on.
       ...(twoFactor ? { twoFactor: { ...twoFactor.status(account.id), required: account.serverAdmin } } : {})

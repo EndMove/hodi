@@ -90,7 +90,7 @@
     "newAccount": "Créer un nouveau compte",
     "signIn": "Rejoindre",
     "alreadyMember": "Ce compte a déjà un profil dans ce foyer : connecte-toi avec lui.",
-    "otherHousehold": "{{email}} est déjà dans le foyer {{current}}. Pour rejoindre le foyer {{household}}, quitte d’abord ton foyer dans Réglages › Compte et données."
+    "otherHousehold": "Ton compte {{email}} est déjà dans {{current}}. Pour rejoindre {{household}}, quitte d’abord ton foyer dans Réglages › Mon compte."
   },
   "password": {
     "show": "Afficher le mot de passe",
@@ -1372,6 +1372,11 @@
       "moreDevices_one": "Voir l’autre",
       "moreDevices_other": "Voir les {{count}} autres",
       "profile": "Profil",
+      "household": "Foyer",
+      "householdAdmin": "Admin du foyer",
+      "householdMember": "Membre du foyer",
+      "lastAdult": "{{role}} · seul adulte avec un compte",
+      "leave": "Quitter",
       "private": "Profil privé",
       "privateHint": "Ton mot de passe pour ouvrir ton profil",
       "trusted": "S’ouvre sans mot de passe",
@@ -1923,6 +1928,12 @@
       "title": "Passer le rôle d’admin ?",
       "message": "<b>{{name}}</b> gère alors les profils, les sources, la clé IA et les réglages du foyer. <b>Toi, tu deviens un adulte comme les autres</b>, et seul·e <b>{{name}}</b> pourra te rendre ce rôle. Confirme avec le mot de passe.",
       "button": "Passer le rôle"
+    },
+    "leaveHousehold": {
+      "title": "Quitter {{name}} ?",
+      "message": "Ton profil dans <b>{{name}}</b> s’en va, avec ce que tu y as lu, enregistré et suivi. Ton compte <b>{{email}}</b> reste : un adulte d’un foyer pourra t’y inviter avec un code.",
+      "messageAdmin": "Ton profil dans <b>{{name}}</b> s’en va, avec ce que tu y as lu, enregistré et suivi, et <b>{{heir}}</b> devient l’admin du foyer. Ton compte <b>{{email}}</b> reste : un adulte d’un foyer pourra t’y inviter avec un code.",
+      "button": "Quitter le foyer"
     },
     "cancelInvitation": {
       "title": "Annuler l’invitation ?",
@@ -2700,6 +2711,13 @@
   "seo": {
     "title": "Hodi - L’actu pour toute la famille, gratuite et partout",
     "description": "Tes sites d’actualités préférés, triés par thème et réunis au même endroit. Un profil pour chacun, et le foyer partage ce qui vaut la peine d’être lu."
+  },
+  "noHousehold": {
+    "title": "Tu n’as plus de foyer",
+    "text": "Ton compte <b>{{email}}</b> n’est plus dans aucun foyer, mais il existe toujours : tu le retrouves dans <i>Mon compte</i>. Pour rejoindre un foyer, déconnecte-toi, puis entre dans <i>J’ai un code</i> celui qu’un de ses adultes te donne.",
+    "deleteMessage": "<b>{{email}}</b> est effacé tout de suite. Les copies de sauvegarde l’oublient au plus tard dans {{days}}.",
+    "account": "Mon compte",
+    "accountIntro": "Ta connexion, tes appareils et tout ce que Hodi garde de toi."
   },
   "choiceField": {
     "remove": "Retirer {{name}}"
