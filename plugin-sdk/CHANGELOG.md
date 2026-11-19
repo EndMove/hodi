@@ -23,6 +23,8 @@ and never touch `version`; a small release pull request raises `version` and mov
   and the `moveDevice` answer of a route (now ignored). `ctx.households.of()` lists at most one household, and
   `ctx.households.create()` refuses (`invalid_household`) an `admin.accountId` that is already in a household.
 
+- **A green notice.** `Notice` takes `tone="success"`, for what just worked.
+
 ## [1.0.0-beta.5] - 2026-11-18
 
 Plugins can show Hodi's − / + number picker, with a value that can be typed, and its multi-select of a source's
