@@ -942,6 +942,20 @@ const MIGRATIONS: string[] = [
   `
   ALTER TABLE sign_in_codes ADD COLUMN invite_name TEXT;
   ALTER TABLE sign_in_codes ADD COLUMN invite_email TEXT;
+  `,
+  // Serveur › Notifications: what the server told its admins, written in each language, and the requests someone
+  // waits on (important_key) until they are handled.
+  `
+  CREATE TABLE server_inbox (
+    id INTEGER PRIMARY KEY,
+    type TEXT NOT NULL,
+    texts TEXT NOT NULL,
+    url TEXT NOT NULL,
+    important_key TEXT,
+    created_at INTEGER NOT NULL,
+    handled_at INTEGER
+  );
+  CREATE INDEX server_inbox_pending ON server_inbox (important_key) WHERE handled_at IS NULL;
   `
 ]
 

@@ -209,6 +209,8 @@ interface CodeRoutesOptions {
   now: () => number
   // « Nouveau mot de passe » for another adult opens their account: the admin's own password comes first.
   checkProof?: CheckProof
+  // A code for a new password made: the person's request in Serveur › Notifications is handled.
+  onResetCode?: (accountId: number) => void
   // Personnes invitées: an invitation's code by e-mail, once Serveur › E-mail is set.
   mail?: InvitationMail
 }
@@ -234,7 +236,7 @@ const mayReset = async (
 
 // "Connecter un appareil" or "Mot de passe oublié" for one profile: the code, or the refusal sent.
 const profileCode = async (
-  { codes, profiles, accounts, now, checkProof }: CodeRoutesOptions,
+  { codes, profiles, accounts, now, checkProof, onResetCode }: CodeRoutesOptions,
   profileId: unknown,
   request: express.Request,
   response: express.Response
@@ -251,7 +253,10 @@ const profileCode = async (
   }
   const reset = !isYoung(target) && target.hasAccount
   if (reset && !(await mayReset({ accounts, checkProof }, target.id, request, response))) return
-  response.status(201).json(codes.create({ profileId: target.id, createdBy: profileIdOf(response), reset }, now()))
+  const made = codes.create({ profileId: target.id, createdBy: profileIdOf(response), reset }, now())
+  const owner = reset ? accounts?.ofProfile(target.id) : null
+  if (owner) onResetCode?.(owner.id)
+  response.status(201).json(made)
 }
 
 // After the session and profile checks: making a code.

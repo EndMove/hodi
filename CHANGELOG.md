@@ -45,6 +45,12 @@ release moves them under its number and date. The plugin SDK has its own: [plugi
 
 ### Added
 
+- **Server > Notifications.** A new inbox lists what the server told its admins, in their language. A request someone
+  waits on stays on top, in orange, under To handle, until it is handled; its count shows beside Notifications in the
+  menu. How each kind reaches the admins moves to Server > Alerts.
+- **Forgot password without e-mail.** On a server that sends no e-mail, Forgot password asks the server's admin for a
+  code: the admin is told (Server > Notifications, and by e-mail or push as chosen), the account shows Code asked, and
+  Make a code there hands the person their 8-character code to type on the same page.
 - **Invited people.** Settings > Profiles shows its profiles under Adults, Teens and Children, then the invitations
   nobody used yet under Invited people. Invite an adult asks a name to recognise the invitation by and, once
   Server > E-mail is set, an address to send the code to. Each invitation can be sent again (or its code shown again)
