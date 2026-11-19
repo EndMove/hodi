@@ -8,6 +8,11 @@ release moves them under its number and date. The plugin SDK has its own: [plugi
 
 ## [Unreleased]
 
+### Changed
+
+- **Names stand out.** In dialogs and at the top of the Settings, Server and My account pages, the names of households and
+  profiles and the e-mail addresses are in bold, and the names of screens and buttons in italics.
+
 ### Fixed
 
 - **Info lines and checkboxes.** The icon of an info or error line sits on the middle of its text, and the
