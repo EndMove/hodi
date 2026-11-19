@@ -15,6 +15,13 @@ and never touch `version`; a small release pull request raises `version` and mov
 - **Bold and italics in intros.** The intro of `Dialog`, `SectionPage` and `askToConfirm` shows `<b>…</b>` (a name, an
   e-mail) in bold and `<i>…</i>` (a screen's or a button's name) in italics, as Hodi's own texts do.
 
+### Removed
+
+- **One household per account.** An account now belongs to one household only, so the ways to move between
+  households are gone: the `afterSignIn` step (« Quel foyer ? »), the `whoIsReadingFooter` buttons under « Qui lit ? »,
+  and the `moveDevice` answer of a route (now ignored). `ctx.households.of()` lists at most one household, and
+  `ctx.households.create()` refuses (`invalid_household`) an `admin.accountId` that is already in a household.
+
 ## [1.0.0-beta.5] - 2026-11-18
 
 Plugins can show Hodi's − / + number picker, with a value that can be typed, and its multi-select of a source's

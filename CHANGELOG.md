@@ -13,6 +13,10 @@ release moves them under its number and date. The plugin SDK has its own: [plugi
 - **Names stand out.** In dialogs and at the top of the Settings, Server and My account pages, the names of households and
   profiles and the e-mail addresses are in bold, and the names of screens and buttons in italics.
 
+- **One household per account.** An account belongs to one household only. Joining another household with an
+  existing account says which household it is in, and asks to leave it first. On a server with Village, Which household? and
+  Switch household are gone.
+
 ### Fixed
 
 - **Info lines and checkboxes.** The icon of an info or error line sits on the middle of its text, and the
