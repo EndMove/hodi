@@ -17,6 +17,13 @@ release moves them under its number and date. The plugin SDK has its own: [plugi
   existing account says which household it is in, and asks to leave it first. On a server with Village, Which household? and
   Switch household are gone.
 
+- **Opening a profile.** In _Qui lit ?_, an adult profile opens at once again, unless one of two new settings says
+  otherwise. _Profil privé_, in Réglages › Compte et données, asks for the account's password on every device, except
+  the ones where _Ne plus demander sur cet appareil_ was ticked (_Redemander_ takes them back). _Code parental_, in
+  Réglages › Foyer, asks for six digits for every adult profile that is not private; the admin sets, changes or turns
+  it off with their own password (and the app's code). Accounts from before keep asking
+  for their password: their profile is private until they turn it off.
+
 ### Fixed
 
 - **Info lines and checkboxes.** The icon of an info or error line sits on the middle of its text, and the

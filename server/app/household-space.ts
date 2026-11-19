@@ -52,7 +52,9 @@ const mountProfiles = (api: express.Router, wiring: Wiring) => {
       secret: wiring.config.sessionSecret,
       pinThrottle,
       accounts,
+      household: wiring.options.household,
       signIn: accounts ? wiring.session.cookieFor : undefined,
+      trust: wiring.trust ?? undefined,
       onCreate: wiring.profileHooks.created,
       onChange: profile => wiring.youthSources?.start(profile),
       onDelete: wiring.profileHooks.deleted,
@@ -120,5 +122,6 @@ export const mountHousehold = (api: express.Router, wiring: Wiring) => {
   mountProfiles(api, wiring)
   mountSourceRequests(api, wiring)
   api.use(householdPhotoRoutes({ household, profiles, accounts }))
-  if (wiring.householdOptions) api.use('/household', requireAdmin, householdRoutes(wiring.householdOptions))
+  if (wiring.householdOptions)
+    api.use('/household', requireAdmin, householdRoutes({ ...wiring.householdOptions, checkProof: wiring.checkProof }))
 }
