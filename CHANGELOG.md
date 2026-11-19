@@ -33,6 +33,11 @@ release moves them under its number and date. The plugin SDK has its own: [plugi
   existing account says which household it is in, and asks to leave it first. On a server with Village, Which household? and
   Switch household are gone.
 
+- **My account.** Settings > Account and data becomes My account, and starts with your profile (name, photo, colour)
+  and your language, which leaves Reading and display. My profile becomes General: the guided tour and the reset.
+  Clearing your reading stats moves under the stats. A teen or a child keeps its name, photo, language and time of the
+  day in General.
+
 ### Fixed
 
 - **Info lines and checkboxes.** The icon of an info or error line sits on the middle of its text, and the
