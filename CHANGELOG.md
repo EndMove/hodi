@@ -38,6 +38,11 @@ release moves them under its number and date. The plugin SDK has its own: [plugi
   Clearing your reading stats moves under the stats. A teen or a child keeps its name, photo, language and time of the
   day in General.
 
+- **Two-step verification is a switch.** In Settings > My account it turns on and off like any other setting, and once
+  on, a row of its own shows the recovery codes left, with New codes. The server's account keeps it on.
+- **A long list of devices folds.** Settings > My account shows three devices and See the N others; unfolded, the list
+  scrolls in a box of its own.
+
 ### Fixed
 
 - **Info lines and checkboxes.** The icon of an info or error line sits on the middle of its text, and the
