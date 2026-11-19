@@ -936,6 +936,12 @@ const MIGRATIONS: string[] = [
   ALTER TABLE users ADD COLUMN private_profile INTEGER NOT NULL DEFAULT 0;
   UPDATE users SET private_profile = 1;
   ALTER TABLE user_devices ADD COLUMN trusted INTEGER NOT NULL DEFAULT 0;
+  `,
+  // Réglages › Profils › Personnes invitées: an invitation keeps the name it was given, to be recognised in the list (the
+  // person picks their own on joining), and the address it was sent to, when it was.
+  `
+  ALTER TABLE sign_in_codes ADD COLUMN invite_name TEXT;
+  ALTER TABLE sign_in_codes ADD COLUMN invite_email TEXT;
   `
 ]
 

@@ -43,6 +43,13 @@ release moves them under its number and date. The plugin SDK has its own: [plugi
 - **A long list of devices folds.** Settings > My account shows three devices and See the N others; unfolded, the list
   scrolls in a box of its own.
 
+### Added
+
+- **Invited people.** Settings > Profiles shows its profiles under Adults, Teens and Children, then the invitations
+  nobody used yet under Invited people. Invite an adult asks a name to recognise the invitation by and, once
+  Server > E-mail is set, an address to send the code to. Each invitation can be sent again (or its code shown again)
+  and cancelled.
+
 ### Fixed
 
 - **Info lines and checkboxes.** The icon of an info or error line sits on the middle of its text, and the
