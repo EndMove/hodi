@@ -68,8 +68,8 @@ describe('opening a profile with a private profile, a Code parental or a trusted
     )
   const chosen = async (cookie: string) =>
     ((await (await call('GET', '/session', cookie)).json()) as { profileChosen: boolean }).profileChosen
-  const signIn = async (account: { email: string; password: string }) =>
-    after_('', await call('POST', '/login', '', account))
+  const signIn = async (account: { email: string; password: string }, device = '') =>
+    after_(device, await call('POST', '/login', device, account))
 
   before(async () => {
     const webDir = mkdtempSync(path.join(tmpdir(), 'hodi-web-'))
@@ -106,7 +106,9 @@ describe('opening a profile with a private profile, a Code parental or a trusted
     baseUrl = `http://127.0.0.1:${(server.address() as AddressInfo).port}`
     close = () => server.close()
     anthoPhone = await signIn(ANTHO)
-    tablet = after_(await signIn(ANTHO), await call('DELETE', '/profiles/current', await signIn(ANTHO)))
+    // A tablet both Antho and Sophie signed in on, back on « Qui lit ? ».
+    const both = await signIn(SOPHIE, await signIn(ANTHO))
+    tablet = after_(both, await call('DELETE', '/profiles/current', both))
   })
   after(() => close())
 
@@ -198,7 +200,6 @@ describe('opening a profile with a private profile, a Code parental or a trusted
     })
     assert.equal(trusted.status, 200)
     tablet = after_(sophieTablet, trusted)
-    assert.match(tablet, /hodi_trusted=v3\./)
     assert.deepEqual(await locks(tablet), { Admin: null, Sophie: 'code', Max: null })
 
     // Next time, Max on it: Antho's opens at once, on this tablet and nowhere else.
@@ -210,10 +211,6 @@ describe('opening a profile with a private profile, a Code parental or a trusted
     const phoneOnly = after_(anthoPhone, await call('DELETE', '/profiles/current', anthoPhone))
     assert.equal((await locks(phoneOnly)).Admin, 'password')
     assert.equal((await call('PUT', '/profiles/current', phoneOnly, { id: 1 })).status, 403)
-
-    // A trust cookie made up for his account opens nothing.
-    const forged = `${phoneOnly}; hodi_trusted=v3.1.1.9999999999.forged`
-    assert.equal((await call('PUT', '/profiles/current', forged, { id: 1 })).status, 403)
 
     const view = (await (await call('GET', '/account', anthoPhone)).json()) as {
       devices: { trusted: boolean; current: boolean }[]
@@ -228,21 +225,18 @@ describe('opening a profile with a private profile, a Code parental or a trusted
     assert.equal(view.devices.filter(device => device.trusted).length, 0)
     assert.equal((await locks(tablet)).Admin, 'password')
 
-    // Trusted again, then the tablet signs out: the trust goes with it.
+    // Trusted again, then he signs out of the tablet: the trust goes with his session there.
     tablet = after_(
       tablet,
       await call('PUT', '/profiles/current', tablet, { id: 1, password: ANTHO.password, trust: true })
     )
     assert.equal((await locks(tablet)).Admin, null)
     const out = await call('POST', '/logout', tablet)
-    assert.match(out.headers.getSetCookie().join('\n'), /hodi_trusted=; Max-Age=0/)
-    const signedInAgain = after_(after_(tablet, out), await call('POST', '/login', '', SOPHIE))
-    assert.equal((await locks(signedInAgain)).Admin, 'password')
-    // Even a copy of the old cookie: the device's row is no longer trusted.
-    assert.equal(
-      (await locks(`${signedInAgain}; ${tablet.split('; ').find(part => part.startsWith('hodi_trusted='))}`)).Admin,
-      'password'
-    )
+    tablet = after_(tablet, out)
+    assert.equal((await locks(tablet)).Admin, 'password')
+    // Signed in on it again, it asks again.
+    tablet = await signIn(ANTHO, tablet)
+    assert.equal((await locks(tablet)).Admin, 'password')
   })
 
   it('opens freely again once private is off and the code is gone', async () => {
@@ -255,6 +249,41 @@ describe('opening a profile with a private profile, a Code parental or a trusted
     const removed = await call('DELETE', '/household/parental-code', anthoPhone, { password: ANTHO.password })
     assert.equal(((await removed.json()) as { parentalCode: boolean }).parentalCode, false)
     assert.deepEqual(await locks(tablet), { Admin: null, Sophie: null, Max: null })
+  })
+
+  it('never reads as another account signed in on the device from a profile id typed in the cookie', async () => {
+    // Sophie's laptop, where Antho signed in after her; his profile is private again.
+    const on = await call('PUT', '/account/private', anthoPhone, { on: true, password: ANTHO.password })
+    anthoPhone = after_(anthoPhone, on)
+    const laptop = await signIn(ANTHO, await signIn(SOPHIE))
+    const forged = [...laptop.split('; ').filter(part => !part.startsWith('hodi_profile=')), 'hodi_profile=1'].join(
+      '; '
+    )
+    assert.equal((await locks(forged)).Admin, 'password')
+    // The device reads as Sophie: her account answers, never Antho's.
+    const asking = await call('GET', '/account', forged)
+    assert.equal(asking.status, 200)
+    assert.equal(((await asking.json()) as { email: string }).email, SOPHIE.email)
+    // Signing out is Sophie's too: Antho stays signed in on the laptop.
+    const left = after_(forged, await call('POST', '/logout', forged))
+    assert.equal((await call('PUT', '/profiles/current', left, { id: 1, password: ANTHO.password })).status, 200)
+  })
+
+  it('keeps one account at a time on a device when it is in no household', async () => {
+    const lone = { email: 'lone@example.com', password: 'une autre phrase assez longue' }
+    const other = { email: 'other@example.com', password: 'encore une phrase assez longue' }
+    for (const account of [lone, other])
+      accounts.create(account.email, await hashPassword(account.password, FAST), clock)
+    const device = await signIn(other, await signIn(lone))
+    const asking = await call('GET', '/account', device)
+    assert.equal(((await asking.json()) as { email: string }).email, other.email)
+    assert.equal(
+      device
+        .split('; ')
+        .find(part => part.startsWith('hodi_session='))
+        ?.includes('~'),
+      false
+    )
   })
 })
 
