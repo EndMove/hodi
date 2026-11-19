@@ -956,6 +956,12 @@ const MIGRATIONS: string[] = [
     handled_at INTEGER
   );
   CREATE INDEX server_inbox_pending ON server_inbox (important_key) WHERE handled_at IS NULL;
+  `,
+  // What an article's picture was made from: its width, and the page's share picture already compared with a small
+  // feed picture, so that the sharper of the two is kept and never downloaded twice.
+  `
+  ALTER TABLE article_images ADD COLUMN width INTEGER;
+  ALTER TABLE article_images ADD COLUMN page_checked TEXT;
   `
 ]
 

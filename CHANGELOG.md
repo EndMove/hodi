@@ -86,6 +86,9 @@ release moves them under its number and date. The plugin SDK has its own: [plugi
 - **À la une.** A story has the same layout on a phone, a tablet and a computer: its picture in a frame, then its
   topic, title, summary and buttons. On a phone the picture is no longer stretched over the whole screen, where a news
   site's small picture showed as big pixels.
+
+- **Sharper pictures.** When a feed gives a small picture (under 960 pixels) and the article's page has a larger one,
+  Hodi makes its copies from the page's. Pictures already made are made again once, in the background.
 - **Read on the site.** In the reader, the round button of the "can’t be read in Hodi" notice is white again in the dark theme
   (dark in the light theme), with its icon readable.
 
